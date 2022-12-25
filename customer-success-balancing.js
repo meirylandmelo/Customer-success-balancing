@@ -9,7 +9,9 @@ function customerSuccessBalancing(
   // customers,
   customerSuccessAway
 ) {
-  const activeCSs = customerSuccess.filter((cs) => !customerSuccessAway.includes(cs.id));
+  const activeCSs = customerSuccess
+    .filter((cs) => !customerSuccessAway.includes(cs.id))
+    .sort((a, b) => a.score - b.score);
 
   return activeCSs;
 
@@ -19,7 +21,9 @@ console.log(customerSuccessBalancing([
   {id: 1, score: 60}, 
   {id: 2, score: 20}, 
   {id: 3, score: 95}, 
-  {id: 4, score: 75}
+  {id: 4, score: 75},
+  {id: 5, score: 85},
+  {id: 6, score: 40},
 ], [2, 4]))
 
 // test("Scenario 1", () => {
