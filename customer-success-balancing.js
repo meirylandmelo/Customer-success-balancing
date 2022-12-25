@@ -6,25 +6,46 @@
  */
 function customerSuccessBalancing(
   customerSuccess,
-  // customers,
+  customers,
   customerSuccessAway
 ) {
   const activeCSs = customerSuccess
     .filter((cs) => !customerSuccessAway.includes(cs.id))
     .sort((a, b) => a.score - b.score);
 
-  return activeCSs;
+  const customersIds = [];
+
+  const calls = activeCSs.reduce((acc, cs) => {
+    const acceptCalls = customers.filter((c) => c.score <= cs.score && !customersIds.includes(c.id));
+
+    customersIds.push(...acceptCalls.map((c) => c.id));
+
+    acc.push({ id: cs.id, calls: acceptCalls.length });
+
+    return acc;
+  }, []);
+
+  return calls
 
 }
 
-console.log(customerSuccessBalancing([
-  {id: 1, score: 60}, 
-  {id: 2, score: 20}, 
-  {id: 3, score: 95}, 
-  {id: 4, score: 75},
-  {id: 5, score: 85},
-  {id: 6, score: 40},
-], [2, 4]))
+console.log(customerSuccessBalancing(
+  [
+    { id: 1, score: 60 },
+    { id: 2, score: 20 },
+    { id: 3, score: 95 },
+    { id: 4, score: 75 },
+  ],
+  [
+    {id: 1, score: 90},
+    {id: 2, score: 20},
+    {id: 3, score: 70},
+    {id: 4, score: 40},
+    {id: 5, score: 60},
+    {id: 6, score: 10}
+  ],
+  [2, 4]
+))
 
 // test("Scenario 1", () => {
 //   const css = [
